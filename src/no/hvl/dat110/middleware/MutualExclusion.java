@@ -173,6 +173,7 @@ public class MutualExclusion {
 
 				// compare clocks, the lowest wins
 				if (messageClock == ownCLock) {
+					// if clocks are the same, compare nodeIDs, the lowest wins
 					if (message.getNodeIP().compareTo((node.getNodeID()).toString()) < 0) {
 						message.setAcknowledged(true);
 						NodeInterface stub = Util.getProcessStub(procName, port);
@@ -181,17 +182,14 @@ public class MutualExclusion {
 						queue.add(message);
 					}
 				} else if (messageClock < ownCLock) {
+					// if sender wins, acknowledge the message, obtain a stub and call onMutexAcknowledgementReceived()
 					message.setAcknowledged(true);
 					NodeInterface stub = Util.getProcessStub(procName, port);
 					stub.onMutexAcknowledgementReceived(message);
 				} else {
+					// if sender looses, queue it
 					queue.add(message);
 				}
-				// if clocks are the same, compare nodeIDs, the lowest wins
-				// if sender wins, acknowledge the message, obtain a stub and call onMutexAcknowledgementReceived()
-				// if sender looses, queue it
-				
-				
 
 				break;
 			}
