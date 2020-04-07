@@ -19,6 +19,7 @@ import java.util.Random;
 import java.util.Set;
 
 import no.hvl.dat110.middleware.Message;
+import no.hvl.dat110.middleware.Node;
 import no.hvl.dat110.rpc.interfaces.NodeInterface;
 import no.hvl.dat110.util.Hash;
 
@@ -112,14 +113,20 @@ public class FileManager {
 		// Task: Given a filename, find all the peers that hold a copy of this file
 		
 		// generate the N replicas from the filename by calling createReplicaFiles()
-		
+		createReplicaFiles();
 		// it means, iterate over the replicas of the file
-		
-		// for each replica, do findSuccessor(replica) that returns successor s.
-		
-		// get the metadata (Message) of the replica from the successor, s (i.e. active peer) of the file
-		
-		// save the metadata in the set succinfo.
+		for(int i = 0; i < this.numReplicas; i++) {
+
+			// for each replica, do findSuccessor(replica) that returns successor s.
+			BigInteger replica = this.replicafiles[i];
+			NodeInterface succ = this.chordnode.findSuccessor(replica);
+
+			// get the metadata (Message) of the replica from the successor, s (i.e. active peer) of the file
+			Message msg = succ.getFilesMetadata(replica);
+
+			// save the metadata in the set succinfo.
+			succinfo.add(msg);
+		}
 		
 		this.activeNodesforFile = succinfo;
 		
