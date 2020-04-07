@@ -76,22 +76,26 @@ public class FileManager {
     	int counter = 0;
     	
     	// Task1: Given a filename, make replicas and distribute them to all active peers such that: pred < replica <= peer
-    	
     	// Task2: assign a replica as the primary for this file. Hint, see the slide (project 3) on Canvas
     	
     	// create replicas of the filename
-    	
+		createReplicaFiles();
 		// iterate over the replicas
-    	
-    	// for each replica, find its successor by performing findSuccessor(replica)
-    	
-    	// call the addKey on the successor and add the replica
-    	
-    	// call the saveFileContent() on the successor
-    	
-    	// increment counter
-    	
-    		
+    	for (int i = 0; i < this.numReplicas; i++) {
+
+			// for each replica, find its successor by performing findSuccessor(replica)
+    		BigInteger replica = this.replicafiles[i];
+    		NodeInterface succ = chordnode.findSuccessor(replica);
+
+			// call the addKey on the successor and add the replica
+    		succ.addKey(replica);
+
+			// call the saveFileContent() on the successor
+			succ.saveFileContent(this.filename, replica, this.bytesOfFile, true);
+
+			// increment counter
+			counter++;
+		}
 		return counter;
     }
 	
@@ -234,7 +238,7 @@ public class FileManager {
 		return sizeOfByte;
 	}
 	/**
-	 * @param size the size to set
+	 * @param sizeOfByte the size to set
 	 */
 	public void setSizeOfByte(String sizeOfByte) {
 		this.sizeOfByte = sizeOfByte;
