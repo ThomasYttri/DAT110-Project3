@@ -20,11 +20,6 @@ public class Hash {
 	public static BigInteger hashOf(String entity) {		
 
 		// Task: Hash a given string using MD5 and return the result as a BigInteger.
-		// convert the hash into hex format
-		
-		// convert the hex into BigInteger
-		
-
 
 		try {
 			//use MD5 with 128 bits digest
