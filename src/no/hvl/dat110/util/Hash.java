@@ -51,26 +51,37 @@ public class Hash {
 		
 		// Task: compute the address size of MD5
 
-		/*
+
 		// get the digest length
-		int digestlength = hashint.bitLength();
+		// int digestlength = hashint.bitLength();
 
 		// compute the number of bits = digest length * 8
-		int numofbits = digestlength * 8;
-		*/
+		// int numofbits = digestlength * 8;
+
 
 		// compute the address size = 2 ^ number of bits
-		BigDecimal adressSize = BigDecimal.valueOf(Math.pow(2, bitSize()));
+		BigDecimal addressSize = BigDecimal.valueOf(Math.pow(2, bitSize()));
 
 		// return the address size
-		return adressSize.toBigInteger();
+		return addressSize.toBigInteger();
 	}
 	
 	public static int bitSize() {
 		
 		int digestlen = 0;
-		
-		digestlen = hashint.bitLength();
+
+		// find the digest length
+		MessageDigest md = null;
+
+		try {
+
+			md = MessageDigest.getInstance("MD5");
+
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+
+		digestlen = md.getDigestLength();
 		
 		return digestlen*8;
 	}
